@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+</head>
+<body>
+    <div>
+        <p>chat app</p>
+        
+            <input id='textbox'>
+            <input type="submit" id="submit-button">
+    </div>
+    {% for i in stuff %}
+        <p>{{i['chat-content']}} <span>{{i['chat-time']}}</span></p>
+    {% endfor %}
+<script type="module">
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"
+    import {getFirestore, collection, addDoc, doc, onSnapshot, getDocs} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js"
+    const firebaseConfig = {
+apiKey: "AIzaSyBYLeQAKWXB4HyqTQDgTfG1wvp8W2bw0yU",
+authDomain: "chat-app-b2dbe.firebaseapp.com",
+projectId: "chat-app-b2dbe",
+storageBucket: "chat-app-b2dbe.appspot.com",
+messagingSenderId: "141946164542",
+appId: "1:141946164542:web:b5d2c6765cae526158886f",
+measurementId: "G-NEV6ZD2MPV"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore()
+    var url = window.location.href
+    console.log(url)
+    function sent(){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url+'work', true);
+        xhr.send(document.getElementById('textbox').value);
+        document.getElementById('textbox').value = ''
+    }
+    // const querySnapshot = await getDocs(collection(db, "chat-history"));
+    onSnapshot(collection(db, 'chat-history'), (col) => {
+        querySnapshot = getDocs(col)
+        querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data());
+    });
+    });
+//     querySnapshot.forEach((doc) => {
+//   // doc.data() is never undefined for query doc snapshots
+//   console.log(doc.id, " => ", doc.data());
+//     });
+    document.getElementById('submit-button').addEventListener('click',sent)
+</script>
+</body>
