@@ -36,18 +36,6 @@ const db = getFirestore()
         xhr.send(document.getElementById('textbox').value);
         document.getElementById('textbox').value = ''
     }
-    // const querySnapshot = await getDocs(collection(db, "chat-history"));
-    onSnapshot(collection(db, 'chat-history'), (col) => {
-        querySnapshot = getDocs(col)
-        querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
-    });
-    });
-//     querySnapshot.forEach((doc) => {
-//   // doc.data() is never undefined for query doc snapshots
-//   console.log(doc.id, " => ", doc.data());
-//     });
     document.getElementById('submit-button').addEventListener('click',sent)
 </script>
 </body>
